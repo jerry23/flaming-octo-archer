@@ -1,0 +1,23 @@
+<div class="jumbotron">
+  <h1>'Allo, 'Allo!</h1>
+  <p class="lead">
+    <ng-include src="'../images/svg/fox.svg'"></ng-include><br>
+    Always a pleasure scaffolding your apps.
+  </p>
+  
+  <form name="myform">
+    <input type="text" name="search" value="" ng-model="search" placeholder="type query">
+  </form>
+  <p><a class="btn btn-lg btn-success" ng-href="#/" ng-click='searchTag()'>Show me: <span ng-bind="search"></span></a></p>
+  
+</div>
+
+<div class="picture-item" ng-repeat="img in Images">
+        <div class="caption">
+          <h3>{{ img.title | uppercase}}</h3>
+          <!-- <p>{{img.description}}</p> -->
+          <p class="hashTag">{{img.tags}}</p>
+          <p><a ng-href="{{img.link}}">{{awesomeThing.url}}</a></p>
+          <img ng-src="{{img.media.m}}" alt="{{img.title}}">
+        </div>
+</div>

@@ -8,7 +8,7 @@
  * Controller of the flamingApp
  */
 angular.module('flamingApp')
-  .controller('MainCtrl',[ '$scope', 'MainService', function ($scope, MainService) {
+  .controller('MainCtrl',[ '$scope', 'MainService', '$location', function ($scope, MainService, $location) {
     // $scope.awesomeThings = [
     //   'HTML5 Boilerplate',
     //   'AngularJS',
@@ -16,40 +16,41 @@ angular.module('flamingApp')
     // ];
 
     // console.log($scope)
+    
+
+    console.log($location)
 
       $scope.$on('$viewContentLoaded', function(){
 
-      	console.log('load', $scope.myform )
+      	//console.log('load', $scope.myform )
 
       });
 
 
       $scope.searchTag = function(){
 
-      	console.log('searchtag', $scope.search)
-
       	var tag = $scope.search;
 
-	    MainService.getImages( tag ).success( function(data) {
-	      var obj = angular.fromJson(eval('(' + data + ')'));
+        MainService.getImages( tag ).success( function(data) {
+          var obj = angular.fromJson(eval('(' + data + ')'));
 
-	      $scope.Images = obj.items;
+          $scope.Images = obj.items;
 
-	      console.log(  $scope.Images);
-	    });
+          console.log(  $scope.Images);
+        });
 
       };
 
-	  $scope.fetchImages = function() {
+	  // $scope.fetchImages = function() {
 
-	    MainService.getImages().success( function(data) {
-	      var obj = angular.fromJson(eval('(' + data + ')'));
+	  //   MainService.getImages().success( function(data) {
+	  //     var obj = angular.fromJson(eval('(' + data + ')'));
 
-	      $scope.Images = obj.items;
+	  //     $scope.Images = obj.items;
 
-	      console.log(  $scope.Images);
-	    });
-	  };
+	  //     console.log(  $scope.Images);
+	  //   });
+	  // };
 
 
   }] );
@@ -70,16 +71,61 @@ angular.module('flamingApp')
 
 
   var flickerAPI ='http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?';
- 
 
   return {
 
     getImages: function( tag ) {
-
-      //return $http.get(flickerAPI + 'tags=dogs&tagmode=any&format=json');
       return $http.get(flickerAPI + '&tags=' + tag + '&tagmode=any&format=json' );
     }
 
   };
 
 }]);
+
+angular.module('flamingApp')
+.filter('capitalize', function() {
+
+  // Create the return function and set the required parameter as well as an optional paramater
+  return function(input, char) {
+
+    console.log( input )
+
+    if (isNaN(input)) {
+
+      // If the input data is not a number, perform the operations to capitalize the correct letter.
+      var char = char - 1 || 0;
+      var letter = input.charAt(char).toUpperCase();
+      var out = [];
+
+      for (var i = 0; i < input.length; i++) {
+
+        if (i == char) {
+          out.push(letter);
+        } else {
+          out.push(input[i]);
+        }
+        
+      }
+
+      return out.join('');
+
+    } else {
+      return input;
+    }
+
+  }
+
+});
+
+
+angular.module('flamingApp')
+.filter('lowercase', function() {
+
+  // Create the return function and set the required parameter as well as an optional paramater
+  return function(input) {
+
+    console.log(input)
+      return input.toLowerCase();
+  }
+
+});
